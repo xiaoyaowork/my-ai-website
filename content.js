@@ -1,7 +1,7 @@
 window.SITE_CONTENT = {
   siteTitle: "一个文科生的AI学习之路",
   siteDescription:
-    "记录学习、实践、失败与思考，让普通人看到进入AI领域也能成长，即使碰壁也没关系。",
+    "记录学习、实践、失败与思考，让普通人看到进入AI领域也能成长，即使碰壁也没关系!。",
 
   navigation: [
     {
@@ -16,7 +16,7 @@ window.SITE_CONTENT = {
       },
     },
     {
-      name: "学习笔记1111",
+      name: "学习笔记",
       type: "articleCollection",
       anchor: "#notes",
       description: "整理过的小红书笔记及实践总结，支持标签分类，便于查找与归纳。",
