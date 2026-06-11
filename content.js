@@ -1,7 +1,7 @@
 window.SITE_CONTENT = {
-  siteTitle: "一个文科生的AI学习之路",
+  siteTitle: "一个文科生的AI学习之路111",
   siteDescription:
-    "记录学习、实践、失败与思考，让普通人看到进入AI领域也能成长，即使碰壁也没关系!。",
+    "记录学习、实践、失败与思考，让普通人看到进入AI领域也能成长，即使碰壁也没关系。",
 
   navigation: [
     {
