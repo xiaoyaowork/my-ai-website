@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一个文科生的AI学习之路</title>
+    <meta
+      name="description"
+      content="记录学习、实践、失败与思考，让普通人看到进入AI领域也能成长，即使碰壁也没关系。"
+    />
+    <style>
+      :root {
+        --paper: #fffdf5;
+        --ink: #000000;
+        --red: #ff6b6b;
+        --yellow: #ffd93d;
+        --violet: #c4b5fd;
+        --green: #95e06c;
+        --blue: #7dd3fc;
+        --white: #ffffff;
+        --shadow-sm: 4px 4px 0 var(--ink);
+        --shadow: 8px 8px 0 var(--ink);
+        --shadow-lg: 12px 12px 0 var(--ink);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background-color: var(--paper);
+        background-image:
+          linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+        background-size: 36px 36px;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          "Microsoft YaHei",
+          sans-serif;
+        font-weight: 700;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 4px solid var(--ink);
+        background: var(--yellow);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 14px 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 3px solid var(--ink);
+        background: var(--red);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .nav-links a,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 8px 14px;
+        border: 3px solid var(--ink);
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        font-size: 14px;
+        font-weight: 900;
+        transition:
+          transform 120ms ease,
+          box-shadow 120ms ease,
+          background 120ms ease;
+      }
+
+      .nav-links a:hover,
+      .button:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--ink);
+      }
+
+      .nav-links a:active,
+      .button:active {
+        transform: translate(3px, 3px);
+        box-shadow: none;
+      }
+
+      main {
+        overflow: hidden;
+      }
+
+      .section {
+        padding: 76px 0;
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        min-height: calc(100vh - 74px);
+        display: grid;
+        align-items: center;
+        padding: 58px 0 76px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: 42px;
+        align-items: center;
+      }
+
+      .eyebrow,
+      .tag {
+        display: inline-flex;
+        width: fit-content;
+        border: 3px solid var(--ink);
+        background: var(--violet);
+        box-shadow: var(--shadow-sm);
+        padding: 6px 10px;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 22px;
+        font-size: clamp(42px, 8vw, 86px);
+        font-weight: 900;
+        letter-spacing: 0;
+        line-height: 0.98;
+      }
+
+      .hero p {
+        max-width: 720px;
+        margin-bottom: 28px;
+        font-size: clamp(18px, 2.4vw, 25px);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .button.primary {
+        background: var(--red);
+      }
+
+      .button.secondary {
+        background: var(--blue);
+      }
+
+      .hero-board {
+        position: relative;
+        border: 4px solid var(--ink);
+        background: var(--white);
+        box-shadow: var(--shadow-lg);
+        padding: 22px;
+      }
+
+      .hero-board::before {
+        content: "AUTO";
+        position: absolute;
+        top: -22px;
+        right: 20px;
+        transform: rotate(4deg);
+        border: 3px solid var(--ink);
+        background: var(--yellow);
+        box-shadow: var(--shadow-sm);
+        padding: 6px 12px;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .note-list {
+        display: grid;
+        gap: 14px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      .note-list li {
+        border: 3px solid var(--ink);
+        background: var(--paper);
+        padding: 14px;
+      }
+
+      .note-list strong {
+        display: block;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .section-title {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-size: clamp(32px, 5vw, 58px);
+        font-weight: 900;
+        line-height: 1.05;
+      }
+
+      h3 {
+        font-size: 24px;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card,
+      .mini-card,
+      .rule-card,
+      .resource-card,
+      .article-card {
+        border: 4px solid var(--ink);
+        background: var(--white);
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+
+      .card.yellow,
+      .rule-card:nth-child(2n) {
+        background: var(--yellow);
+      }
+
+      .card.violet,
+      .article-card:nth-child(3n) {
+        background: var(--violet);
+      }
+
+      .card.red,
+      .resource-card:nth-child(2n) {
+        background: var(--red);
+      }
+
+      .card.green {
+        background: var(--green);
+      }
+
+      .pill-row,
+      .tag-row,
+      .quick-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .pill {
+        display: inline-flex;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        background: var(--white);
+        padding: 6px 12px;
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .rules-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .rule-card {
+        min-height: 190px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .rule-card small {
+        display: inline-flex;
+        margin-bottom: 10px;
+        border: 3px solid var(--ink);
+        background: var(--white);
+        padding: 4px 8px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .rule-card ul,
+      .resource-card ul {
+        padding-left: 20px;
+        margin: 10px 0 0;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 18px;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .date {
+        display: grid;
+        place-items: center;
+        border: 4px solid var(--ink);
+        background: var(--yellow);
+        box-shadow: var(--shadow-sm);
+        font-weight: 900;
+      }
+
+      .timeline-content {
+        border: 4px solid var(--ink);
+        background: var(--white);
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+
+      .timeline-content h3,
+      .article-card h3,
+      .resource-card h3,
+      .rule-card h3 {
+        margin-bottom: 8px;
+      }
+
+      .article-card,
+      .resource-card {
+        min-height: 250px;
+        transition:
+          transform 120ms ease,
+          box-shadow 120ms ease;
+      }
+
+      .article-card:hover,
+      .resource-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .meta {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .resource-line {
+        border-top: 3px solid var(--ink);
+        margin-top: 12px;
+        padding-top: 12px;
+      }
+
+      .strategy {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .about {
+        background: var(--ink);
+        color: var(--white);
+      }
+
+      .about .card {
+        color: var(--ink);
+      }
+
+      .footer {
+        border-top: 4px solid var(--ink);
+        background: var(--yellow);
+        padding: 26px 0;
+        font-weight: 900;
+      }
+
+      .footer .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid,
+        .split,
+        .grid,
+        .rules-grid,
+        .strategy {
+          grid-template-columns: 1fr;
+        }
+
+        .timeline-item {
+          grid-template-columns: 1fr;
+        }
+
+        .date {
+          min-height: 58px;
+          justify-content: start;
+          padding-left: 16px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav-links {
+          justify-content: flex-start;
+          width: 100%;
+        }
+
+        .nav-links a,
+        .button {
+          width: 100%;
+        }
+
+        .section {
+          padding: 56px 0;
+        }
+
+        .hero {
+          min-height: auto;
+        }
+
+        .hero-actions {
+          width: 100%;
+        }
+
+        .hero-board {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="#top" aria-label="回到首页">
+          <span class="brand-mark">AI</span>
+          <span data-text="siteTitle">一个文科生的AI学习之路</span>
+        </a>
+        <div class="nav-links" data-render="navigation"></div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow" data-text="homepage.hero.eyebrow">文科生 / 外行人 / 正在学习中</span>
+            <h1 data-text="homepage.hero.title">一个文科生的AI学习之路</h1>
+            <p data-text="homepage.hero.subtitle">
+              记录学习、实践、失败与思考，让你发现：学习AI并没有那么难。
+            </p>
+            <div class="hero-actions" data-render="heroButtons"></div>
+          </div>
+
+          <aside class="hero-board" aria-label="最新成长记录">
+            <span class="tag" data-text="homepage.recentRecords.title">最新成长记录</span>
+            <ul class="note-list" style="margin-top: 18px" data-render="recentRecords"></ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container split">
+          <article class="card yellow">
+            <h2 data-text="homepage.currentLearning.title">我现在在学什么？</h2>
+            <div class="pill-row" data-render="currentLearning"></div>
+          </article>
+          <article class="card violet">
+            <span class="tag">当前卡点</span>
+            <p style="font-size: 26px; margin: 18px 0 0" data-text="homepage.currentLearning.currentChallenge">
+              Agent到底是什么？
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="structure">
+        <div class="container">
+          <div class="section-title">
+            <h2>内容结构</h2>
+            <span class="tag">以后就按这套规则更新</span>
+          </div>
+          <div class="rules-grid" data-render="contentRules"></div>
+        </div>
+      </section>
+
+      <section class="section" id="timeline">
+        <div class="container">
+          <div class="section-title">
+            <h2>成长档案</h2>
+            <span class="tag">自动按日期从旧到新</span>
+          </div>
+          <div class="timeline" data-render="timeline"></div>
+        </div>
+      </section>
+
+      <section class="section" id="notes">
+        <div class="container">
+          <div class="section-title">
+            <h2>学习笔记</h2>
+            <span class="tag">标题 / 正文 / 标签</span>
+          </div>
+          <div class="grid" data-render="notes"></div>
+        </div>
+      </section>
+
+      <section class="section" id="resources">
+        <div class="container">
+          <div class="section-title">
+            <h2>资源推荐</h2>
+            <span class="tag">亲测后再推荐</span>
+          </div>
+          <div class="grid" data-render="resources"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container card green">
+          <h2 data-text="homepage.quickLinks.title">如果你刚开始学习AI</h2>
+          <p style="max-width: 780px" data-text="homepage.quickLinks.intro">
+            不用一开始就懂所有概念。先从一个真实问题开始，记录问题、尝试和结果，成长会慢慢变得可见。
+          </p>
+          <div class="quick-links" data-render="quickLinks"></div>
+        </div>
+      </section>
+
+      <section class="section about" id="about">
+        <div class="container">
+          <div class="section-title">
+            <h2>关于我</h2>
+            <span class="tag">稳定更新</span>
+          </div>
+          <div class="split" data-render="about"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-title">
+            <h2>更新策略</h2>
+            <span class="tag">从随笔到网站沉淀</span>
+          </div>
+          <div class="strategy" data-render="strategy"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span data-text="siteTitle">一个文科生的AI学习之路</span>
+        <span>记录比完美更重要</span>
+      </div>
+    </footer>
+
+    <script src="./content.js"></script>
+    <script>
+      const content = window.SITE_CONTENT;
+      const colorClasses = ["", "yellow", "violet", "red", "green"];
+      const byDateAsc = (a, b) => new Date(a.date) - new Date(b.date);
+      const byDateDesc = (a, b) => new Date(b.date) - new Date(a.date);
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function getValue(path) {
+        return path.split(".").reduce((value, key) => value?.[key], content);
+      }
+
+      function renderPills(items) {
+        return items.map((item) => `<span class="pill">${escapeHtml(item)}</span>`).join("");
+      }
+
+      function renderButton(item, className = "") {
+        return `<a class="button ${className}" href="${escapeHtml(item.link)}">${escapeHtml(item.text)}</a>`;
+      }
+
+      document.title = content.siteTitle;
+      document.querySelector('meta[name="description"]').setAttribute("content", content.siteDescription);
+
+      document.querySelectorAll("[data-text]").forEach((node) => {
+        node.textContent = getValue(node.dataset.text) || "";
+      });
+
+      document.querySelector('[data-render="navigation"]').innerHTML = content.navigation
+        .map((item) => `<a href="${escapeHtml(item.anchor)}">${escapeHtml(item.name)}</a>`)
+        .join("");
+
+      document.querySelector('[data-render="heroButtons"]').innerHTML = content.homepage.hero.ctaButtons
+        .map((item, index) => renderButton(item, index === 0 ? "primary" : "secondary"))
+        .join("");
+
+      const sortedTimeline = [...content.timeline].sort(byDateAsc);
+      const recentRecords = [...content.timeline].sort(byDateDesc).slice(0, 5);
+
+      document.querySelector('[data-render="recentRecords"]').innerHTML = recentRecords
+        .map(
+          (item) => `
+            <li>
+              <strong>${escapeHtml(item.date)}</strong>
+              ${escapeHtml(item.title)}：${escapeHtml(item.summary)}
+            </li>
+          `,
+        )
+        .join("");
+
+      document.querySelector('[data-render="currentLearning"]').innerHTML = renderPills(
+        content.homepage.currentLearning.items,
+      );
+
+      document.querySelector('[data-render="contentRules"]').innerHTML = content.navigation
+        .map((item) => {
+          const fields = item.contentRules?.requiredFields || [];
+          return `
+            <article class="rule-card">
+              <small>${escapeHtml(item.type)}</small>
+              <h3>${escapeHtml(item.name)}</h3>
+              <p>${escapeHtml(item.description)}</p>
+              ${fields.length ? `<div class="tag-row">${renderPills(fields)}</div>` : ""}
+            </article>
+          `;
+        })
+        .join("");
+
+      document.querySelector('[data-render="timeline"]').innerHTML = sortedTimeline
+        .map(
+          (item) => `
+            <article class="timeline-item">
+              <div class="date">${escapeHtml(item.date)}</div>
+              <div class="timeline-content">
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(item.summary)}</p>
+              </div>
+            </article>
+          `,
+        )
+        .join("");
+
+      document.querySelector('[data-render="notes"]').innerHTML = content.notes
+        .map(
+          (item) => `
+            <article class="article-card">
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.body)}</p>
+              <div class="tag-row">${renderPills(item.tags || [])}</div>
+            </article>
+          `,
+        )
+        .join("");
+
+      document.querySelector('[data-render="resources"]').innerHTML = content.resources
+        .map(
+          (item) => `
+            <article class="resource-card">
+              <span class="meta">评分：${escapeHtml(item.rating)}</span>
+              <h3>${escapeHtml(item.name)}</h3>
+              <p><strong>适合人群：</strong>${escapeHtml(item.audience)}</p>
+              <p class="resource-line"><strong>推荐理由：</strong>${escapeHtml(item.reason)}</p>
+              <p class="resource-line"><strong>使用建议：</strong>${escapeHtml(item.advice)}</p>
+            </article>
+          `,
+        )
+        .join("");
+
+      document.querySelector('[data-render="quickLinks"]').innerHTML = content.homepage.quickLinks.links
+        .map((item) => renderButton(item))
+        .join("");
+
+      document.querySelector('[data-render="about"]').innerHTML = content.about.sections
+        .map(
+          (item, index) => `
+            <article class="card ${colorClasses[index % colorClasses.length]}">
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.content)}</p>
+            </article>
+          `,
+        )
+        .join("");
+
+      document.querySelector('[data-render="strategy"]').innerHTML = `
+        <article class="card yellow">
+          <h3>核心目标</h3>
+          <p>${escapeHtml(content.contentStrategy.coreGoal)}</p>
+        </article>
+        <article class="card violet">
+          <h3>更新流程</h3>
+          <div class="tag-row">${renderPills(content.contentStrategy.updateFlow)}</div>
+        </article>
+        <article class="card">
+          <h3>可扩展性</h3>
+          <div class="tag-row">${renderPills(content.contentStrategy.scalability)}</div>
+        </article>
+      `;
+    </script>
+  </body>
+</html>
