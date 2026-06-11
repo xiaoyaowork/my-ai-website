@@ -16,7 +16,7 @@ window.SITE_CONTENT = {
       },
     },
     {
-      name: "学习笔记",
+      name: "学习笔记1111",
       type: "articleCollection",
       anchor: "#notes",
       description: "整理过的小红书笔记及实践总结，支持标签分类，便于查找与归纳。",
